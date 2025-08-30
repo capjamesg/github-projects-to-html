@@ -1,0 +1,80 @@
+---
+layout: wiki
+title: Projects
+permalink: /projects/
+---
+
+<section class="e-content">
+    <p>I love to make things!</p>
+    <p>The main projects I am working on are:</p>
+    <ul>
+        <li>This website!</li>
+        <li><a href="https://artemis.jamesg.blog">Artemis</a>, a calm web reader.</li>
+        <li><a href="https://editbutton.net">Edit Button</a>, a browser extension that tells you when a page is editable.</li>
+        <li><a href="https://airportpianos.org">Airport Pianos</a>, a directory of pianos in airports around the world.</li>
+        <li><a href="https://breakfastand.coffee" rel="noreferrer">breakfastand.coffee</a>, a news aggregator for breakfast and coffee stories.</li>
+        <li><a href="https://github.com/capjamesg/indieweb-utils">indieweb-utils</a>, a Python package with utilities for building indie web applications.</li>
+        <li><a href="https://github.com/capjamesg/aurora">Aurora</a>, a Python static site generator.</li>
+        <li><a href="https://github.com/capjamesg/athena" rel="noreferrer">Athena</a>, a mobile HTML and CSS editor.</li>
+    </ul>
+    <p>I also make HTML, CSS, and JavaScript projects in my <a href="https://playground.jamesg.blog">web playground</a>.</p>
+    <p>You can view a list of all of my open source projects below.</p>
+</section>
+<h2>My Open Source Projects</h2>
+<p><i>Projects retrieved daily from GitHub.</i></p>
+<p>I recommend using <kbd>Ctrl</kbd> + <kbd>F</kbd> to search this page.</p>
+<p>Archived projects have a red border and "(archived)" after their names.</p>
+<p>Projects are ordered by the date they were last updated, in descending order.</p>
+<fieldset>
+    <noscript>
+        The filter feature requires JavaScript to use.
+    </noscript>
+    <legend>Filter by language</legend>
+    <select id="language-filter">
+        <option value="all">All</option>
+        {% for lang in languages %}
+        <option value="{{ lang.lower() }}">{{ lang }}</option>
+        {% endfor %}
+    </select>
+</fieldset>
+{% for project in projects %}
+<dl data-language="{{ project.language.lower() }}" {% if project.archived %}class="archived"{% endif %}>
+    <dt><a href="{{ project.url }}">{{ project.name }} {% if project.archived %}(archived){% endif %}</a> <span>{{ project.updated }}</span></dt>
+    <dd>
+        <div><p>{{ project.description }}</p> <span class="lang">{{ project.language }}</span></div>
+        {% if project.topics %}<div>{{ project.topics }}</div>{% endif %}
+    </dd>
+</dl>
+{% endfor %}
+<style>
+dt, dd div { display: grid; grid-template-columns: 3fr 1fr; gap: 1rem; }
+dd { margin: 0; text-wrap: balance; }
+dt span { font-weight: normal; }
+dd p { margin: 0;}
+dt span { font-style: italic; }
+dt a { width: max-content; }
+legend { color: var(--foreground-color); }
+fieldset { border-color: var(--border-color); }
+fieldset select { width: 100%; }
+legend, fieldset * { font-size: 1.1rem; }
+dd div:nth-of-type(2) { opacity: 0.8; font-style: italic; }
+.archived { border: 1px solid rgb(255, 121, 121); padding: 1rem; }
+@media (max-width: 600px) {
+    dt, dd div { grid-template-columns: 1fr; gap: 0.25rem; }
+    dt a { width: 100%; }
+    dd div:nth-of-type(2) { margin-top: 0.5rem; }
+    .lang { display: none; }
+}
+</style>
+<script>
+    document.getElementById('language-filter').addEventListener('change', function() {
+        const selectedLang = this.value;
+        document.querySelectorAll('dl').forEach(dl => {
+            if (selectedLang === 'all' || dl.getAttribute('data-language') === selectedLang) {
+                dl.style.display = '';
+            } else {
+                dl.style.display = 'none';
+            }
+        });
+    });
+</script>
