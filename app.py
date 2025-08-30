@@ -20,15 +20,20 @@ while next:
     response = requests.get(url + f"&page={next}")
 
     for result in response.json():
-        if result["fork"] or result["private"]: continue
+        if result["fork"] or result["private"]:
+            continue
         final_results.append(
             {
-                **result,
+                "url": result["html_url"],
+                "name": result["name"],
+                "description": result["description"] or "",
+                "language": result["language"] or "",
                 "topics": ", ".join([f"#{topic}" for topic in result["topics"]]).strip(
                     ", "
                 )
                 if result["topics"]
                 else [],
+                "archived": result["archived"] or False,
                 "updated": datetime.datetime.strptime(
                     result["updated_at"], "%Y-%m-%dT%H:%M:%SZ"
                 ).strftime("%b %d, %Y"),
